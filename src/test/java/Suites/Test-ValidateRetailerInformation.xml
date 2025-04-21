@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Test Suite">
+
+    <!-- Test with URLs1.properties -->
+    <test name="Test1">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="propertyFile" value="Test1"/>
+        <classes>
+            <class name="Scripts.ValidateRetailerInformationTest"/>
+        </classes>
+    </test>
+
+
+</suite>

@@ -1,0 +1,165 @@
+package Pages;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class ContactPageRetailer extends BasePage {
+    private static final Logger log = LogManager.getLogger(ContactPageRetailer.class);
+
+
+    /**
+     * Constructor for ContactPageRetailer
+     * Initializes the page elements using PageFactory from the parent class
+     *
+     * @param driver WebDriver instance to be used for this page
+     */
+    public ContactPageRetailer(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+        log.info("ContactPageRetailer initialized");
+    }
+
+
+    /**
+     * Address element with multiple locator strategies
+     */
+    @FindAll({
+            @FindBy(css = "div[class*='address']"),
+            @FindBy(css = "p[class*='body']"),
+            @FindBy(css = "span[class*='address']"),
+            @FindBy(xpath = "//div[contains(@class, 'location')]//p"),
+            @FindBy(xpath = "//div[contains(@class, 'contact-info')]//address")
+    })
+    private WebElement addressElement;
+
+    /**
+     * Phone number element with multiple locator strategies
+     */
+    @FindAll({
+            @FindBy(css = "a[href*='tel:']"),
+            @FindBy(css = "span[class*='phone']"),
+            @FindBy(css = "div[class*='phone']"),
+            @FindBy(xpath = "//p[contains(@class, 'phone')]"),
+            @FindBy(xpath = "//div[contains(@class, 'contact')]//a[contains(@href, 'tel')]")
+    })
+    private WebElement numberElement;
+
+    /**
+     * Opening hours element with multiple locator strategies
+     */
+    @FindAll({
+            @FindBy(css = "div[class*='hours']"),
+            @FindBy(css = "p[class*='hours']"),
+            @FindBy(css = "div[class*='timing']"),
+            @FindBy(xpath = "//div[contains(@class, 'store-hours')]"),
+            @FindBy(xpath = "//div[contains(@class, 'opening-times')]")
+    })
+    private WebElement openingHoursElement;
+
+    /**
+     * Gets the address text from the page
+     * @return String containing address
+     */
+    public String getAddress() {
+        try {
+            log.info("Attempting to get retailer address");
+            waitForElementPresence(addressElement);
+            String address = addressElement.getText();
+            log.debug("Retrieved retailer address: " + address);
+            return address;
+        } catch (Exception e) {
+            log.error("Failed to get retailer address: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Gets the phone number from the page
+     * @return String containing phone number
+     */
+    public String getPhoneNumber() {
+        try {
+            log.info("Attempting to get retailer phone number");
+            waitForElementPresence(numberElement);
+            String phoneNumber = numberElement.getText();
+            log.debug("Retrieved retailer phone number: " + phoneNumber);
+            return phoneNumber;
+        } catch (Exception e) {
+            log.error("Failed to get retailer phone number: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Gets the opening hours from the page
+     * @return String containing opening hours
+     */
+    public String getOpeningHours() {
+        try {
+            log.info("Attempting to get retailer opening hours");
+            waitForElementPresence(openingHoursElement);
+            String hours = openingHoursElement.getText();
+            log.debug("Retrieved retailer opening hours: " + hours);
+            return hours;
+        } catch (Exception e) {
+            log.error("Failed to get retailer opening hours: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * Checks if all contact information elements are displayed
+     * @return boolean indicating if all elements are displayed
+     */
+    public boolean areContactDetailsDisplayed() {
+        try {
+            log.info("Checking if all retailer contact details are displayed");
+            boolean areDisplayed = addressElement.isDisplayed() &&
+                    numberElement.isDisplayed() &&
+                    openingHoursElement.isDisplayed();
+            log.debug("Retailer contact details displayed: " + areDisplayed);
+            return areDisplayed;
+        } catch (Exception e) {
+            log.error("Error checking retailer contact details display: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Waits for all contact information elements to be visible
+     * @return boolean indicating if all elements became visible
+     */
+    public boolean waitForContactDetails() {
+        try {
+            log.info("Waiting for retailer contact details to be visible");
+            waitForElementPresence(addressElement);
+            waitForElementPresence(numberElement);
+            waitForElementPresence(openingHoursElement);
+            log.info("All retailer contact details are now visible");
+            return true;
+        } catch (Exception e) {
+            log.error("Failed waiting for retailer contact details: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Handles cookie consent for the contact page
+     */
+    public void handleContactPageCookies() {
+        try {
+            log.info("Handling retailer contact page cookies");
+            handleCookieConsent();
+            log.info("Successfully handled retailer cookies");
+        } catch (Exception e) {
+            log.error("Failed to handle retailer cookies: " + e.getMessage());
+            throw e;
+        }
+    }
+
+}
