@@ -26,7 +26,9 @@ public class AddressComplianceCheck {
 
         // Normalize addresses for comparison
         String normalizedRolexAddress = normalizeAddress(rolexAddress);
+        log.info("Normalized Rolex Address: {}", normalizedRolexAddress);
         String normalizedRetailerAddress = normalizeAddress(retailerAddress);
+        log.info("Normalized Retailer Address: {}", normalizedRetailerAddress);
 
         // Check for exact match after normalization
         if (normalizedRolexAddress.equals(normalizedRetailerAddress)) {

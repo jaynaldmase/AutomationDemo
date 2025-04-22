@@ -20,6 +20,12 @@ public class Constants {
         public static final String ADDRESS = "address";
         public static final String PHONE_NUMBER = "phone-number";
         public static final String OPENING_HOURS = "opening-hours";
+        public static final String RETAILER_ADDRESS = "Retailer-Address";
+        public static final String RETAILER_PHONE_NUMBER = "Retailer-Phone-Number";
+        public static final String RETAILER_OPENING_HOURS = "Retailer-Opening-Hours";
+        public static final String ROLEX_ADDRESS = "Rolex-Address";
+        public static final String ROLEX_PHONE_NUMBER = "Rolex-Phone-Number";
+        public static final String ROLEX_OPENING_HOURS = "Rolex-Opening-Hours";
     }
 
     /**

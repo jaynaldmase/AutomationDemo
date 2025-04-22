@@ -21,8 +21,6 @@ public class CookieBanner {
     private static final int COOKIE_TIMEOUT = 10;
     private final WebDriverWait cookieWait;
 
-    // Constants for timeout configuration
-    private static final int WAIT_TIMEOUT_SECONDS = 10;
 
     // Page elements using PageFactory annotations
     @FindAll({
@@ -57,18 +55,6 @@ public class CookieBanner {
     })
     private WebElement customizeButton;
 
-    @FindBy(id = "marketing-cookies-checkbox")
-    private WebElement marketingCheckbox;
-
-    @FindBy(id = "analytics-cookies-checkbox")
-    private WebElement analyticsCheckbox;
-
-    @FindAll({
-            @FindBy(id = "save-preferences"),
-            @FindBy(css = ".save-preferences-btn"),
-            @FindBy(xpath = "//button[contains(text(), 'Save Preferences')]")
-    })
-    private WebElement savePreferencesButton;
 
     /**
      * Constructs a new CookieBanner instance.
@@ -104,7 +90,7 @@ public class CookieBanner {
     public boolean isBannerDisplayed() {
         try {
             boolean isDisplayed = bannerContainer.isDisplayed();
-            log.debug("Cookie banner display status: " + isDisplayed);
+            log.debug("Cookie banner display status: {}", isDisplayed);
             return isDisplayed;
         } catch (Exception e) {
             log.debug("Cookie banner not found");
@@ -125,7 +111,7 @@ public class CookieBanner {
                 waitForBannerToDisappear();
             }
         } catch (Exception e) {
-            log.error("Failed to accept cookies: " + e.getMessage());
+            log.error("Failed to accept cookies: {}", e.getMessage());
             throw e;
         }
     }
@@ -143,24 +129,7 @@ public class CookieBanner {
                 waitForBannerToDisappear();
             }
         } catch (Exception e) {
-            log.error("Failed to reject cookies: " + e.getMessage());
-            throw e;
-        }
-    }
-
-    /**
-     * Opens cookie customization panel
-     */
-    public void openCustomizePanel() {
-        try {
-            if (waitForBanner()) {
-                log.info("Attempting to open customize panel");
-                cookieWait.until(ExpectedConditions.elementToBeClickable(customizeButton));
-                customizeButton.click();
-                log.info("Opened customize panel successfully");
-            }
-        } catch (Exception e) {
-            log.error("Failed to open customize panel: " + e.getMessage());
+            log.error("Failed to reject cookies: {}", e.getMessage());
             throw e;
         }
     }
@@ -174,7 +143,7 @@ public class CookieBanner {
             log.info("Cookie banner closed");
         } catch (Exception e) {
             acceptAllCookies();
-            log.warn("Cookie banner did not close as expected: " + e.getMessage());
+            log.warn("Cookie banner did not close as expected: {}", e.getMessage());
         }
     }
 }

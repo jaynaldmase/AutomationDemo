@@ -1,5 +1,6 @@
 package Pages;
 
+import Constants.Constants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -72,9 +73,8 @@ public class ContactPageRolex extends BasePage {
     public String getAddress() {
         try {
             log.info("Attempting to get address");
-            waitForElementPresence(addressElement);
             String address = addressElement.getText();
-            log.debug("Retrieved address: {}", address);
+            log.info("Retrieved address: {}", address);
             return address;
         } catch (Exception e) {
             log.error("Failed to get address: {}", e.getMessage());
@@ -89,12 +89,11 @@ public class ContactPageRolex extends BasePage {
     public String getPhoneNumber() {
         try {
             log.info("Attempting to get phone number");
-            waitForElementPresence(numberElement);
             String phoneNumber = numberElement.getText();
-            log.debug("Retrieved phone number: " + phoneNumber);
+            log.info("Retrieved phone number: {} ", phoneNumber);
             return phoneNumber;
         } catch (Exception e) {
-            log.error("Failed to get phone number: " + e.getMessage());
+            log.error("Failed to get phone number: {}", e.getMessage());
             throw e;
         }
     }
@@ -106,12 +105,11 @@ public class ContactPageRolex extends BasePage {
     public String getOpeningHours() {
         try {
             log.info("Attempting to get opening hours");
-            waitForElementPresence(openingHoursElement);
             String hours = openingHoursElement.getText();
-            log.debug("Retrieved opening hours: " + hours);
+            log.info("Retrieved opening hours: {}", hours);
             return hours;
         } catch (Exception e) {
-            log.error("Failed to get opening hours: " + e.getMessage());
+            log.error("Failed to get opening hours: {}", e.getMessage());
             throw e;
         }
     }
@@ -123,13 +121,9 @@ public class ContactPageRolex extends BasePage {
     public boolean areContactDetailsDisplayed() {
         try {
             log.info("Checking if all contact details are displayed");
-            boolean areDisplayed = addressElement.isDisplayed() &&
-                    numberElement.isDisplayed() &&
-                    openingHoursElement.isDisplayed();
-            log.debug("Contact details displayed: " + areDisplayed);
-            return areDisplayed;
+            return waitForContactDetails();
         } catch (Exception e) {
-            log.error("Error checking contact details display: " + e.getMessage());
+            log.error("Error checking contact details display: {}", e.getMessage());
             return false;
         }
     }
@@ -141,13 +135,13 @@ public class ContactPageRolex extends BasePage {
     public boolean waitForContactDetails() {
         try {
             log.info("Waiting for contact details to be visible");
-            waitForElementPresence(addressElement);
-            waitForElementPresence(numberElement);
-            waitForElementPresence(openingHoursElement);
+            waitForElementPresence(addressElement, Constants.Elements.ROLEX_ADDRESS);
+            waitForElementPresence(numberElement, Constants.Elements.ROLEX_PHONE_NUMBER);
+            waitForElementPresence(openingHoursElement, Constants.Elements.ROLEX_OPENING_HOURS);
             log.info("All contact details are now visible");
             return true;
         } catch (Exception e) {
-            log.error("Failed waiting for contact details: " + e.getMessage());
+            log.error("Failed waiting for contact details: {}", e.getMessage());
             return false;
         }
     }
@@ -161,7 +155,7 @@ public class ContactPageRolex extends BasePage {
             handleCookieConsent();
             log.info("Successfully handled cookies");
         } catch (Exception e) {
-            log.error("Failed to handle cookies: " + e.getMessage());
+            log.error("Failed to handle cookies: {}", e.getMessage());
             throw e;
         }
     }

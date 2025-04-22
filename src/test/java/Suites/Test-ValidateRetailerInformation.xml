@@ -7,7 +7,23 @@
         <parameter name="browser" value="chrome"/>
         <parameter name="propertyFile" value="Test1"/>
         <classes>
-            <class name="Scripts.ValidateRetailerInformationTest"/>
+            <class name="Scripts.ValidateRetailerInformationTest">
+            <methods>
+                <include name="validateRetailerInfo"/>
+            </methods>
+            </class>
+        </classes>
+    </test>
+    <!-- Test with URLs1.properties -->
+    <test name="Test2">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="propertyFile" value="Test2"/>
+        <classes>
+            <class name="Scripts.ValidateRetailerInformationTest">
+                <methods>
+                    <include name="validateRetailerInfo"/>
+                </methods>
+            </class>
         </classes>
     </test>
 

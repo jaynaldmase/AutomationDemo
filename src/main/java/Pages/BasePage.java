@@ -1,5 +1,6 @@
 package Pages;
 
+import Utilities.ScreenshotUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
@@ -10,6 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static org.apache.logging.log4j.LogManager.*;
+
 /**
  * Base page class containing common functionality for all page objects
  */
@@ -18,7 +21,8 @@ public class BasePage {
     protected WebDriverWait wait;
     protected CookieBanner cookieBanner;
     protected JavascriptExecutor js;
-    private static final Logger log = LogManager.getLogger(BasePage.class);
+    protected ScreenshotUtils screenshotUtils;
+    private static final Logger log = getLogger(BasePage.class);
     private static final int DEFAULT_TIMEOUT = 10;
 
     /**
@@ -35,6 +39,8 @@ public class BasePage {
         this.cookieBanner = new CookieBanner(driver);
         log.info("Base page initialized");
         this.js = (JavascriptExecutor) driver;
+        this.screenshotUtils = new ScreenshotUtils(driver);
+
 
     }
 
@@ -54,20 +60,27 @@ public class BasePage {
     }
 
     /**
-     * Waits for element to be present and scrolls into view
-     *
+     * Waits for element presence and captures screenshot
      * @param element WebElement to wait for
+     * @param elementName Name of element for screenshot
      */
-    protected void waitForElementPresence(WebElement element) {
+    protected void waitForElementPresence(WebElement element, String elementName) {
         try {
-            log.info("Waiting for element presence");
+            log.info("Waiting for element presence: " + elementName);
+
+            // Wait for element visibility
             wait.until(ExpectedConditions.visibilityOf(element));
-            js.executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
+
+            // Capture screenshot with highlight
+            screenshotUtils.captureElementScreenshot(element, elementName);
+
         } catch (Exception e) {
-            log.error("Element not present: " + e.getMessage());
+            log.error("Element not present: " + elementName + " - " + e.getMessage());
             throw e;
         }
     }
+
+
 
     /**
      * Handles cookie consent banner if present on the page

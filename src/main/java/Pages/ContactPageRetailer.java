@@ -8,6 +8,8 @@ import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import Constants.Constants;
+
 public class ContactPageRetailer extends BasePage {
     private static final Logger log = LogManager.getLogger(ContactPageRetailer.class);
 
@@ -68,12 +70,11 @@ public class ContactPageRetailer extends BasePage {
     public String getAddress() {
         try {
             log.info("Attempting to get retailer address");
-            waitForElementPresence(addressElement);
             String address = addressElement.getText();
-            log.debug("Retrieved retailer address: " + address);
+            log.info("Retrieved retailer address: {}", address);
             return address;
         } catch (Exception e) {
-            log.error("Failed to get retailer address: " + e.getMessage());
+            log.error("Failed to get retailer address: {}", e.getMessage());
             throw e;
         }
     }
@@ -85,12 +86,11 @@ public class ContactPageRetailer extends BasePage {
     public String getPhoneNumber() {
         try {
             log.info("Attempting to get retailer phone number");
-            waitForElementPresence(numberElement);
             String phoneNumber = numberElement.getText();
-            log.debug("Retrieved retailer phone number: " + phoneNumber);
+            log.info("Retrieved retailer phone number: {}", phoneNumber);
             return phoneNumber;
         } catch (Exception e) {
-            log.error("Failed to get retailer phone number: " + e.getMessage());
+            log.error("Failed to get retailer phone number: {}", e.getMessage());
             throw e;
         }
     }
@@ -102,12 +102,11 @@ public class ContactPageRetailer extends BasePage {
     public String getOpeningHours() {
         try {
             log.info("Attempting to get retailer opening hours");
-            waitForElementPresence(openingHoursElement);
             String hours = openingHoursElement.getText();
-            log.debug("Retrieved retailer opening hours: " + hours);
+            log.info("Retrieved retailer opening hours: {}", hours);
             return hours;
         } catch (Exception e) {
-            log.error("Failed to get retailer opening hours: " + e.getMessage());
+            log.error("Failed to get retailer opening hours: {}", e.getMessage());
             throw e;
         }
     }
@@ -119,13 +118,9 @@ public class ContactPageRetailer extends BasePage {
     public boolean areContactDetailsDisplayed() {
         try {
             log.info("Checking if all retailer contact details are displayed");
-            boolean areDisplayed = addressElement.isDisplayed() &&
-                    numberElement.isDisplayed() &&
-                    openingHoursElement.isDisplayed();
-            log.debug("Retailer contact details displayed: " + areDisplayed);
-            return areDisplayed;
+            return waitForContactDetails();
         } catch (Exception e) {
-            log.error("Error checking retailer contact details display: " + e.getMessage());
+            log.error("Error checking retailer contact details display: {}", e.getMessage());
             return false;
         }
     }
@@ -137,13 +132,13 @@ public class ContactPageRetailer extends BasePage {
     public boolean waitForContactDetails() {
         try {
             log.info("Waiting for retailer contact details to be visible");
-            waitForElementPresence(addressElement);
-            waitForElementPresence(numberElement);
-            waitForElementPresence(openingHoursElement);
+            waitForElementPresence(addressElement, Constants.Elements.RETAILER_ADDRESS);
+            waitForElementPresence(numberElement, Constants.Elements.RETAILER_PHONE_NUMBER);
+            waitForElementPresence(openingHoursElement, Constants.Elements.RETAILER_OPENING_HOURS);
             log.info("All retailer contact details are now visible");
             return true;
         } catch (Exception e) {
-            log.error("Failed waiting for retailer contact details: " + e.getMessage());
+            log.error("Failed waiting for retailer contact details: {}", e.getMessage());
             return false;
         }
     }
@@ -157,7 +152,7 @@ public class ContactPageRetailer extends BasePage {
             handleCookieConsent();
             log.info("Successfully handled retailer cookies");
         } catch (Exception e) {
-            log.error("Failed to handle retailer cookies: " + e.getMessage());
+            log.error("Failed to handle retailer cookies: {}", e.getMessage());
             throw e;
         }
     }
